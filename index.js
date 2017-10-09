@@ -3,7 +3,15 @@ var exphbs = require('express-handlebars')
 var request = require('request')
 var yelp = require('yelp-fusion')
 var nutritionix = require('nutritionix')
+require('dotenv').config()
 var app = express()
+
+const yelpId = process.env.yelpId
+const yelpKey = process.env.yelpKey
+const edamamId = process.env.edamamId
+const edamamKey = process.env.edamamKey
+const nutritionixId = process.env.nutritionixId
+const nutritionixKey = process.env.nutritionixKey
 
 // APIS
 // nutritionix - nutrient
@@ -22,7 +30,7 @@ app.get('/', function (req, res) {
     res.render('home', { msg: 'Hello World' })
 })
 
-request('https://api.edamam.com/search?q=chicken&app_id=' + edamamConfig.id + '&app_key=' + edamamConfig.key, function (error, response, body) {
+request('https://api.edamam.com/search?q=chicken&app_id=' + edamamId + '&app_key=' + edamamKey, function (error, response, body) {
     console.log('error:', error)
     console.log('statusCode:', response && response.statusCode)
     console.log('body:', body)
