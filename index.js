@@ -2,7 +2,7 @@ var express = require('express')
 var exphbs = require('express-handlebars')
 var request = require('request')
 var yelp = require('yelp-fusion')
-var nutritionix = require('nutritionix')
+var NutritionixClient = require('nutritionix')
 require('dotenv').config()
 var app = express()
 
@@ -12,6 +12,11 @@ const edamamId = process.env.edamamId
 const edamamKey = process.env.edamamKey
 const nutritionixId = process.env.nutritionixId
 const nutritionixKey = process.env.nutritionixKey
+
+var nutritionix = new NutritionixClient ({
+    appId: nutritionixId,
+    appKey: nutritionixKey
+})
 
 // APIS
 // nutritionix - nutrient
@@ -30,10 +35,50 @@ app.get('/', function (req, res) {
     res.render('home', { msg: 'Hello World' })
 })
 
-request('https://api.edamam.com/search?q=chicken&app_id=' + edamamId + '&app_key=' + edamamKey, function (error, response, body) {
-    console.log('error:', error)
-    console.log('statusCode:', response && response.statusCode)
-    console.log('body:', body)
+// request('https://api.edamam.com/search?q=chicken&app_id=' + edamamId + '&app_key=' + edamamKey, function (error, response, body) {
+//     console.log('error:', error)
+//     console.log('statusCode:', response && response.statusCode)
+//     console.log('body:', body)
+// })
+
+function successHandler (searchResults) {
+    var result = searchResults.results[0]
+    var id = result.resource_id
+
+    var name = [
+        id,
+        result.brand_name,
+        result.item_name
+    ].join(' - ')
+
+    console.log(('search successful retrieving' +
+                  'record for item: %s').green, name)
+
+    return nutritionix.item({
+        id: id
+    })
+}
+//
+// nutritionix.search ({
+//     q:'salad',
+//     limit: 10,
+//     offset: 0,
+//     search_nutrient: 'calories'
+// }).then(successHandler)
+
+const searchRequest = {
+    term: 'Four Barrel Coffee',
+    location: 'san francisco, ca'
+}
+
+yelp.accessToken(yelpId, yelpKey).then(response => {
+    const client = yelp.client(response.jsonBody.access_token)
+
+    client.search(searchRequest).then(response => {
+        const firstResult = response.jsonBody.businesses[0]
+        const prettyJson = JSON.stringify(firstResult, null, 4)
+        console.log(prettyJson)
+    })
 })
 
 app.listen(3000, function () {
