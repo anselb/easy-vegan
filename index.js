@@ -1,10 +1,26 @@
-var express = require('express')
-var exphbs = require('express-handlebars')
-var request = require('request')
-var yelp = require('yelp-fusion')
-var NutritionixClient = require('nutritionix')
+const express = require('express')
+const exphbs = require('express-handlebars')
+const methodOverride = require('method-override')
+const path = require('path')
+const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+const request = require('request')
+const yelp = require('yelp-fusion')
+const NutritionixClient = require('nutritionix')
+const app = express()
+
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
+app.set('view engine', 'handlebars')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/easy-vegan', { useMongoClient: true })
+app.use(bodyParser.urlencoded({ extended: true}))
+app.use(methodOverride('_method'))
+app.use(express.static(path.join(__dirname, 'public')))
 require('dotenv').config()
-var app = express()
+
+require('./controllers/recipes')(app)
+//require('./controllers/behaviors')(app)
+
+var Recipe = require('./models/recipe')
 
 const yelpId = process.env.yelpId
 const yelpKey = process.env.yelpKey
@@ -28,11 +44,10 @@ var nutritionix = new NutritionixClient ({
 // grocery list generation
 // reasons to be vegan?
 
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
-app.set('view engine', 'handlebars')
-
 app.get('/', function (req, res) {
-    res.render('home', { msg: 'Hello World' })
+    Recipe.find(function (err, recipes) {
+        res.render('recipes-index', { recipes: recipes })
+    })
 })
 
 // request('https://api.edamam.com/search?q=chicken&app_id=' + edamamId + '&app_key=' + edamamKey, function (error, response, body) {
@@ -71,15 +86,15 @@ const searchRequest = {
     location: 'san francisco, ca'
 }
 
-yelp.accessToken(yelpId, yelpKey).then(response => {
-    const client = yelp.client(response.jsonBody.access_token)
-
-    client.search(searchRequest).then(response => {
-        const firstResult = response.jsonBody.businesses[0]
-        const prettyJson = JSON.stringify(firstResult, null, 4)
-        console.log(prettyJson)
-    })
-})
+// yelp.accessToken(yelpId, yelpKey).then(response => {
+//     const client = yelp.client(response.jsonBody.access_token)
+//
+//     client.search(searchRequest).then(response => {
+//         const firstResult = response.jsonBody.businesses[0]
+//         const prettyJson = JSON.stringify(firstResult, null, 4)
+//         console.log(prettyJson)
+//     })
+// })
 
 app.listen(3000, function () {
     console.log('Easy Vegan listening on port 3000')

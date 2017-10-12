@@ -1,0 +1,16 @@
+<!-- recipes-index.handlebars -->
+
+<h1>Recipes</h1>
+
+<div class="row">
+    {{#each recipes}}
+        <div class="col-sm-3">
+            <a href="/recipes/{{this._id}}">
+                <h1>{{this.name}}</h1>
+            </a>
+            <p>{{this.description}}</p>
+            <p>{{this.ingredients}}</p>
+            <p>{{this.instructions}}</p>
+        </div>
+    {{/each}}
+</div>

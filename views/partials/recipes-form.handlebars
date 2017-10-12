@@ -1,0 +1,29 @@
+<!-- recipes-form.handlebars -->
+
+<!-- NAME -->
+<div class="form-group">
+    <label for="name">Recipe Name</label>
+    <input class="form-control" type="text" name="name" value="{{recipe.name}}">
+</div>
+
+<!-- DESCRIPTION -->
+<div class="form-group">
+    <label for="description">Description</label>
+    <textarea class="form-control" name="description" rows="3">{{recipe.description}}</textarea>
+</div>
+
+<!-- INGREDIENTS -->
+<div class="form-group">
+    <label for="ingredients">Ingredients</label>
+    <textarea class="form-control" name="ingredients" rows="5">{{recipe.ingredients}}</textarea>
+</div>
+
+<!-- INSTRUCTIONS -->
+<div class="form-group">
+    <label for="instructions">Instructions</label>
+    <textarea class="form-control" name="instructions" rows="5">{{recipe.instructions}}</textarea>
+</div>
+
+<!-- BUTTON -->
+<button class="btn btn-default" type="submit">Save Recipe</button>
+<a class="btn btn-default" href="/" role="button">Cancel</a>

@@ -1,13 +1,32 @@
 <!-- main.handlebars -->
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <title>Easy Vegan</title>
+
+        <!-- Bootstrap minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     </head>
     <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">
+                        Easy Vegan
+                    </a>
+                </div>
+                <div class="pull-right">
+                    <a href="/recipes/new" class="btn btn-default navbar-btn">New Recipe</a>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            {{{body}}}
+        </div>
 
-        {{{body}}}
-
+        <!-- Bootstrap minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </body>
 </html>
