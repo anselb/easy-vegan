@@ -1,0 +1,10 @@
+<!-- recipes-edit.handlebars -->
+
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <legend>Edit Recipe</legend>
+        <form action="/recipes/{{recipe._id}}?_method=PUT" method="POST">
+            {{> recipes-form }}
+        </form>
+    </div>
+</div>

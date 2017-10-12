@@ -14,6 +14,12 @@ module.exports = function (app) {
     })
 
     //GET recipe edit form
+    app.get('/recipes/:id/edit', function (req, res) {
+        Recipe.findById(req.params.id).then((recipe) => {
+            res.render('recipes-edit', { recipe: recipe })
+        })
+    })
+
     //POST new recipe
     app.post('/recipes', function (req, res) {
         Recipe.create(req.body, function (err, recipe) {
@@ -21,6 +27,12 @@ module.exports = function (app) {
             res.redirect('/')
         })
     })
+
     //PUT(edit) recipe
+    app.put('/recipes/:id', function (req, res) {
+        Recipe.findByIdAndUpdate(req.params.id, req.body).then((recipe) => {
+            res.redirect('/recipes/' + recipe._id)
+        })
+    })
     //DELETE recipe
 }
