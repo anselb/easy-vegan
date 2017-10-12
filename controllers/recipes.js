@@ -31,8 +31,15 @@ module.exports = function (app) {
     //PUT(edit) recipe
     app.put('/recipes/:id', function (req, res) {
         Recipe.findByIdAndUpdate(req.params.id, req.body).then((recipe) => {
+            console.log(recipe)
             res.redirect('/recipes/' + recipe._id)
         })
     })
+
     //DELETE recipe
+    app.delete('/recipes/:id', function (req, res) {
+        Recipe.findByIdAndRemove(req.params.id, function (err) {
+            res.redirect('/')
+        })
+    })
 }

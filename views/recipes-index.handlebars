@@ -12,7 +12,10 @@
             <p>{{this.ingredients}}</p>
             <p>{{this.instructions}}</p>
 
-            <a href="/recipes/{{this._id}}/edit">Edit</a>
+            <form action="/recipes/{{this._id}}?_method=DELETE" method="POST">
+                <a class="btn btn-default" href="/recipes/{{this._id}}/edit" role="button">Edit</a>
+                <button class="btn btn-default" type="submit">Delete</button>
+            </form>
         </div>
     {{/each}}
 </div>
