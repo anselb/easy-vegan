@@ -34,6 +34,7 @@ app.use((req, res, next) => {
 });
 
 require('./controllers/recipes')(app);
+require('./controllers/auth')(app);
 //require('./controllers/behaviors')(app);
 
 var Recipe = require('./models/recipe');
