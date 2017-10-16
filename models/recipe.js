@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 var RecipeSchema = new Schema({
     name            : { type: String, required: true },
@@ -8,4 +8,4 @@ var RecipeSchema = new Schema({
     instructions    : { type: String, required: true }
 })
 
-module.exports = mongoose.model('Recipe', RecipeSchema)
+module.exports = mongoose.model('Recipe', RecipeSchema);
