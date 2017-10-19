@@ -17,23 +17,32 @@
                         Easy Vegan
                     </a>
                 </div>
-                <div class="pull-right">
-                    <a href="/recipes/new" class="btn btn-default navbar-btn">New Recipe</a>
-                </div>
-                <div class="pull-right">
-                    <a href="/logout" class="btn btn-default navbar-btn">Logout</a>
-                </div>
-                <div class="pull-right">
-                    <a href="/login" class="btn btn-default navbar-btn">Login</a>
-                </div>
-                <div class="pull-right">
-                    <a href="/sign-up" class="btn btn-default navbar-btn">Sign Up</a>
-                </div>
+                {{#if currentUser}}
+                    <div class="pull-right">
+                        <a href="/recipes/new" class="btn btn-default navbar-btn">New Recipe</a>
+                    </div>
+                    <div class="pull-right">
+                        <a href="/logout" class="btn btn-default navbar-btn">Logout</a>
+                    </div>
+                {{else}}
+                    <div class="pull-right">
+                        <a href="/login" class="btn btn-default navbar-btn">Login</a>
+                    </div>
+                    <div class="pull-right">
+                        <a href="/sign-up" class="btn btn-default navbar-btn">Sign Up</a>
+                    </div>
+                {{/if}}
             </div>
         </nav>
         <div class="container">
             {{{body}}}
         </div>
+
+        <!-- minified jQuery -->
+        <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
 
         <!-- Bootstrap minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

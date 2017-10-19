@@ -8,5 +8,18 @@
         <p>{{recipe.description}}</p>
         <p>{{recipe.ingredients}}</p>
         <p>{{recipe.instructions}}</p>
+
+        <form class="form-group" action="/recipe/{{recipe._id}}/comments" method="POST">
+            <p><strong>Comment</strong></p>
+            <textarea class="form-control" name="content" rows="3" placeholder="Comment"></textarea>
+            <button class="btn btn-default" type="submit">Reply</button>
+        </form>
+
+        <div class="">
+            {{#each recipe.comments}}
+                <p>{{this.content}}</p>
+                <p>By: {{this.author.username}}</p>
+            {{/each}}
+        </div>
     </div>
 </div>

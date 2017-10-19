@@ -3,20 +3,23 @@ const Recipe = require('../models/recipe');
 module.exports = function (app) {
     //GET new recipe form
     app.get('/recipes/new', function (req, res) {
-        res.render('recipes-new', {});
+        var currentUser = req.user
+        res.render('recipes-new', { currentUser: currentUser });
     });
 
     //GET individual recipe
     app.get('/recipes/:id', function (req, res) {
-        Recipe.findById(req.params.id).then((recipe) => {
-            res.render('recipes-show', { recipe: recipe });
+        Recipe.findById(req.params.id).populate('comments.author').then((recipe) => {
+            var currentUser = req.user
+            res.render('recipes-show', { recipe: recipe, currentUser: currentUser });
         });
     });
 
     //GET recipe edit form
     app.get('/recipes/:id/edit', function (req, res) {
         Recipe.findById(req.params.id).then((recipe) => {
-            res.render('recipes-edit', { recipe: recipe });
+            var currentUser = req.user
+            res.render('recipes-edit', { recipe: recipe, currentUser: currentUser });
         });
     });
 

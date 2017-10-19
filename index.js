@@ -35,6 +35,7 @@ app.use((req, res, next) => {
 
 require('./controllers/recipes')(app);
 require('./controllers/auth')(app);
+require('./controllers/comments')(app);
 //require('./controllers/behaviors')(app);
 
 var Recipe = require('./models/recipe');
@@ -62,8 +63,9 @@ var nutritionix = new NutritionixClient ({
 // reasons to be vegan?
 
 app.get('/', function (req, res) {
+    var currentUser = req.user
     Recipe.find(function (err, recipes) {
-        res.render('recipes-index', { recipes: recipes });
+        res.render('recipes-index', { recipes: recipes, currentUser: currentUser });
     });
 });
 

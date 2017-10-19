@@ -4,7 +4,17 @@ const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    username        : { type: String, required: true },
+    username        : { type: String,
+                        required: true,
+                        // validate: {
+                        //     validator: function(verifyName, cb) {
+                        //         UserSchema.findOne({ username: verifyName }, function (err, docs) {
+                        //             cb(docs.length == 0);
+                        //         });
+                        //     },
+                        //     message: 'User already exists!'
+                        // }
+                    },
     password        : { type: String, select: false },
     createdAt       : { type: Date },
     updatedAt       : { type: Date }
@@ -16,6 +26,17 @@ UserSchema.pre('save', function (next) {
     if (!this.createdAt) {
         this.createdAt = date;
     }
+
+    // let self = this;
+    // userModel.findOne({ username : self.username }, function (err, user) {
+    //     if (!user.length) {
+    //         console.log(user.length)
+    //         next();
+    //     } else {
+    //         console.log('user exists: ', self.username);
+    //         next(new Error('User exists!'));
+    //     }
+    // });
 
     const user = this;
     if (!user.isModified('password')) {
@@ -36,4 +57,5 @@ UserSchema.methods.comparePassword = function (password, done) {
     });
 }
 
-module.exports = mongoose.model('User', UserSchema);
+let userModel = mongoose.model('User', UserSchema);
+module.exports = userModel
